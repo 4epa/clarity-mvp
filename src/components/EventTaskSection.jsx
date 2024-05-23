@@ -6,7 +6,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import theme from "@/theme";
 
-const Task = ({ title, time }) => {
+const Task = ({ title }) => {
   const [complete, setComplete] = useState(false);
 
   const getColor = () => {
@@ -34,29 +34,12 @@ const Task = ({ title, time }) => {
         />
         <Typography variant="body2">{title}</Typography>
       </Stack>
-      <Typography variant="body2">{time} min</Typography>
     </Stack>
   );
 };
 
-const EventTaskSection = () => {
-  const subTasks = [
-    {
-      id: 1,
-      title: "Reading",
-      time: 20,
-    },
-    {
-      id: 2,
-      title: "Writting",
-      time: 20,
-    },
-    {
-      id: 3,
-      title: "Learn words",
-      time: 20,
-    },
-  ];
+const EventTaskSection = ({ subTasks }) => {
+  console.log(subTasks)
 
   return (
     <Stack
@@ -64,12 +47,11 @@ const EventTaskSection = () => {
       padding="16px"
       direction="column"
       sx={{ background: "#EBEBEB", borderRadius: "12px" }}>
-      {subTasks.map((task) => {
+      {subTasks && subTasks.map((task, index) => {
         return (
           <Task
-            key={task.id}
+            key={index}
             title={task.title}
-            time={task.time}
           />
         );
       })}

@@ -9,7 +9,14 @@ const AppProvider = ({ children }) => {
     {
       id: "1",
       title: "morning routine",
-      subtasks: [],
+      subtasks: [
+        {
+          title: "Shower",
+        },
+        {
+          title: "Read news",
+        },
+      ],
       hours: 8,
       mins: 0,
       color: "#00EA09",
@@ -21,7 +28,11 @@ const AppProvider = ({ children }) => {
     {
       id: "2",
       title: "Daily meeting",
-      subtasks: [],
+      subtasks: [
+        {
+          title: "Show new app",
+        },
+      ],
       hours: 9,
       mins: 0,
       color: "#FF8718",
@@ -33,7 +44,11 @@ const AppProvider = ({ children }) => {
     {
       id: "3",
       title: "Breakfast",
-      subtasks: [],
+      subtasks: [
+        {
+          title: "cook everything",
+        },
+      ],
       hours: 10,
       mins: 0,
       color: "#E94949",
@@ -45,7 +60,14 @@ const AppProvider = ({ children }) => {
     {
       id: "4",
       title: "Work",
-      subtasks: [],
+      subtasks: [
+        {
+          title: "do task 3",
+        },
+        {
+          title: "update data",
+        },
+      ],
       hours: 11,
       mins: 30,
       color: "#00B2EA",

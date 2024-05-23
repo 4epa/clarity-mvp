@@ -9,6 +9,7 @@ import {
 import theme from "@/theme";
 import { useContext } from "react";
 import { AppContext } from "@/context/AppContext";
+import Link from "next/link";
 
 const MINUTES_IN_DAY = 1440;
 const HEIGHT_OF_TIME_BAR = 2054.4;
@@ -54,15 +55,17 @@ const EventList = ({ events }) => {
             {calculateEventTime(hours, mins, duration.hours, duration.mins)}
           </Typography>
 
-          <Box
-            position="absolute"
-            top="0px"
-            left="0px"
-            width="100%"
-            height="100%"
-            backgroundColor={color}
-            sx={{ opacity: "0.25" }}
-          />
+          <Link href={`/event/${event.id}`}>
+            <Box
+              position="absolute"
+              top="0px"
+              left="0px"
+              width="100%"
+              height="100%"
+              backgroundColor={color}
+              sx={{ opacity: "0.25" }}
+            />
+          </Link>
         </Stack>
       );
     })

@@ -4,23 +4,33 @@ import EventTaskSection from "@/components/EventTaskSection";
 import { Box, Stack, Typography, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "@/context/AppContext";
 
-export default function Home() {
+export default function Home({ params }) {
+  const id = params.id;
+
+  const { events } = useContext(AppContext);
+
+  const event = events ? events.find((event) => event.id === id) : [];
+
   return (
     <main>
       <Box padding="16px 12px">
         <Stack
           marginBottom="16px"
           direction="row">
-          <ArrowBackIcon />
+          <Link href="/">
+            <ArrowBackIcon />
+          </Link>
         </Stack>
         <Typography
           marginBottom="72px"
           variant="h5">
-          English lessons
+          {event.title}
         </Typography>
 
-        <EventTaskSection />
+        <EventTaskSection subTasks={event.subtasks} />
 
         <Stack
           padding="16px 16px 100px"

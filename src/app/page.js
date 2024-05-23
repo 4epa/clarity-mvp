@@ -5,6 +5,7 @@ import {
   getCurrentDate,
   getDaysOfCurrentWeek,
   getCurrentDay,
+  getCurrentTimeInMinutes,
 } from "@/utils/utils";
 import theme from "@/theme";
 import { useContext, useEffect, useState } from "react";
@@ -13,12 +14,15 @@ import EventList from "@/components/EventLists";
 import Link from "next/link";
 import AddIcon from "@mui/icons-material/Add";
 
+const MINUTES_IN_DAY = 1440;
+
 export default function Home() {
   const currentDate = getCurrentDate();
   const daysOfWeek = getDaysOfCurrentWeek();
 
   const [currentDay, setCurrentDay] = useState(getCurrentDay());
   const [events, setEvents] = useState(null);
+  const [minutes, setMinutes] = useState(getCurrentTimeInMinutes());
 
   const {
     sunEvents,
@@ -61,6 +65,18 @@ export default function Home() {
     const events = getEventsSetter(currentDay);
     setEvents(events);
   }, [currentDay]);
+
+  useEffect(() => {
+    const updateMinutes = () => {
+      setMinutes(getCurrentTimeInMinutes());
+    };
+
+    const interval = setInterval(updateMinutes, 60000);
+
+    updateMinutes();
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <main>
@@ -113,6 +129,17 @@ export default function Home() {
             position="relative"
             overflow="hidden">
             <EventList events={events} />
+
+            <Box
+              zIndex="-1"
+              position="absolute"
+              top="0px"
+              left="0px"
+              width="100%"
+              borderBottom="3px solid #E94949"
+              backgroundColor="rgba(233, 73, 73, 0.1)"
+              height={`${(minutes * 100) / MINUTES_IN_DAY}%`}
+            />
 
             <Stack>
               <Stack

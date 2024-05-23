@@ -103,3 +103,8 @@ export const calculateEventTime = (
 
   return `${startTime} - ${endTime}`;
 };
+
+export const getCurrentTimeInMinutes = () => {
+  const now = new Date();
+  return now.getHours() * 60 + now.getMinutes();
+};
