@@ -1,71 +1,64 @@
 "use client";
 
 import { Box, Stack, Typography, Avatar } from "@mui/material";
-import { getCurrentDate, getDaysOfCurrentWeek } from "@/utils/utils";
+import {
+  getCurrentDate,
+  getDaysOfCurrentWeek,
+  getCurrentDay,
+} from "@/utils/utils";
 import theme from "@/theme";
-
-const MINUTES_IN_DAY = 1440;
-const HEIGHT_OF_TIME_BAR = 2054.4;
-const HEIGHT_OF_TIME_BAR_ITEM = 85.6;
-
-const getMins = (hours, mins) => {
-  return hours * 60 + mins;
-};
-
-const getEventPosition = (mins) => {
-  return (HEIGHT_OF_TIME_BAR * mins) / MINUTES_IN_DAY + "px";
-};
-
-const getEventHeight = (mins) => {
-  return (HEIGHT_OF_TIME_BAR_ITEM * mins) / 60 + "px";
-};
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "@/context/AppContext";
+import EventList from "@/components/EventLists";
 
 export default function Home() {
   const currentDate = getCurrentDate();
   const daysOfWeek = getDaysOfCurrentWeek();
 
-  const events = [
-    {
-      title: "morning routine",
-      subtasks: [],
-      hours: 8,
-      mins: 0,
-      duration: {
-        hours: 0,
-        mins: 50,
-      },
-    },
-    {
-      title: "Daily meeting",
-      subtasks: [],
-      hours: 9,
-      mins: 0,
-      duration: {
-        hours: 0,
-        mins: 50,
-      },
-    },
-    {
-      title: "Breakfast",
-      subtasks: [],
-      hours: 10,
-      mins: 0,
-      duration: {
-        hours: 1,
-        mins: 0,
-      },
-    },
-    {
-      title: "Work",
-      subtasks: [],
-      hours: 11,
-      mins: 30,
-      duration: {
-        hours: 8,
-        mins: 0,
-      },
-    },
-  ];
+  const [currentDay, setCurrentDay] = useState(getCurrentDay());
+  const [events, setEvents] = useState(null);
+
+  const {
+    sunEvents,
+    monEvents,
+    tueEvents,
+    wedEvents,
+    thuEvents,
+    friEvents,
+    satEvents,
+  } = useContext(AppContext);
+
+  const getEventsSetter = (day) => {
+    switch (day) {
+      case "Sun":
+        return sunEvents;
+      case "Mon":
+        return monEvents;
+      case "Tue":
+        return tueEvents;
+      case "Wed":
+        return wedEvents;
+      case "Thu":
+        return thuEvents;
+      case "Fri":
+        return friEvents;
+      case "Sat":
+        return satEvents;
+    }
+  };
+
+  const isActive = (day) => {
+    return currentDay === day;
+  };
+
+  const handleClick = (day) => {
+    setCurrentDay(day);
+  };
+
+  useEffect(() => {
+    const events = getEventsSetter(currentDay);
+    setEvents(events);
+  }, [currentDay]);
 
   return (
     <main>
@@ -92,8 +85,12 @@ export default function Home() {
             {daysOfWeek.map((day) => (
               <Box
                 key={day.date}
+                onClick={() => handleClick(day.dayOfWeek)}
                 borderRadius="8px"
-                padding="5px">
+                padding="5px"
+                backgroundColor={
+                  isActive(day.dayOfWeek) ? theme.palette.primary.light : "none"
+                }>
                 <Typography variant="bod1">{day.dayOfWeek}</Typography>
                 <Typography variant="h5">{day.date}</Typography>
               </Box>
@@ -110,41 +107,10 @@ export default function Home() {
             }}>
             <Typography variant="h5">Today`s schedule</Typography>
           </Box>
-          <Stack position="relative" overflow="hidden">
-            {events.map((event, index) => {
-              const { title, hours, mins, duration } = event;
-
-              const positionMins = getMins(hours, mins);
-              const durationMins = getMins(duration.hours, duration.mins);
-
-              const position = getEventPosition(positionMins);
-              const height = getEventHeight(durationMins);
-
-              return (
-                <Stack
-                  key={index}
-                  position="absolute"
-                  left="60px"
-                  top={position}
-                  height={height}
-                  width="100%"
-                  padding="4px 6px"
-                  borderLeft="4px solid #00B2EA"
-                  justifyContent="space-between">
-                  <Typography variant="body2">{title} | 09:00</Typography>
-                  
-                  <Box
-                    position="absolute"
-                    top="0px"
-                    left="0px"
-                    width="100%"
-                    height="100%"
-                    backgroundColor="#00B2EA"
-                    sx={{opacity: "0.25"}}
-                  />
-                </Stack>
-              );
-            })}
+          <Stack
+            position="relative"
+            overflow="hidden">
+            <EventList events={events} />
 
             <Stack>
               <Stack
