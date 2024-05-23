@@ -55,3 +55,51 @@ export const getCurrentDay = () => {
 
   return daysOfWeek[dayOfWeek];
 };
+
+export const getEvent = (
+  title,
+  startHour,
+  startMin,
+  durationHour,
+  durationMin,
+  color
+) => {
+  return {
+    id: `${Math.random().toString(16).slice(2)}`,
+    title: title,
+    hours: +startHour,
+    mins: +startMin,
+    color: color,
+    duration: {
+      hours: +durationHour,
+      mins: +durationMin,
+    },
+    subtasks: [],
+  };
+};
+
+export const calculateEventTime = (
+  startHour,
+  startMin,
+  durationHour,
+  durationMin
+) => {
+  const startTotalMin = startHour * 60 + startMin;
+  const durationTotalMin = durationHour * 60 + durationMin;
+
+  const endTotalMin = startTotalMin + durationTotalMin;
+
+  const startHourDisplay = Math.floor(startTotalMin / 60);
+  const startMinDisplay = startTotalMin % 60;
+  const endHourDisplay = Math.floor(endTotalMin / 60);
+  const endMinDisplay = endTotalMin % 60;
+
+  const startTime = `${String(startHourDisplay).padStart(2, "0")}:${String(
+    startMinDisplay
+  ).padStart(2, "0")}`;
+  const endTime = `${String(endHourDisplay).padStart(2, "0")}:${String(
+    endMinDisplay
+  ).padStart(2, "0")}`;
+
+  return `${startTime} - ${endTime}`;
+};

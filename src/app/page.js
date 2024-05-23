@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Stack, Typography, Avatar } from "@mui/material";
+import { Box, Stack, Typography, Avatar, Button } from "@mui/material";
 import {
   getCurrentDate,
   getDaysOfCurrentWeek,
@@ -10,6 +10,8 @@ import theme from "@/theme";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/context/AppContext";
 import EventList from "@/components/EventLists";
+import Link from "next/link";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function Home() {
   const currentDate = getCurrentDate();
@@ -332,6 +334,18 @@ export default function Home() {
             </Stack>
           </Stack>
         </Stack>
+
+        <Box
+          zIndex="100"
+          position="fixed"
+          right="12px"
+          bottom="12px">
+          <Link href="/events">
+            <Button variant="contained">
+              <AddIcon fontSize="large" />
+            </Button>
+          </Link>
+        </Box>
       </Box>
     </main>
   );
