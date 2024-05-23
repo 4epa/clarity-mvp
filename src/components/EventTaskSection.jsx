@@ -32,9 +32,9 @@ const Task = ({ title, time }) => {
             borderRadius: "50%",
           }}
         />
-        <Typography variant="body1">{title}</Typography>
+        <Typography variant="body2">{title}</Typography>
       </Stack>
-      <Typography variant="body1">{time} min</Typography>
+      <Typography variant="body2">{time} min</Typography>
     </Stack>
   );
 };

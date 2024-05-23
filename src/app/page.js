@@ -131,8 +131,8 @@ export default function Home() {
                   padding="8px"
                   borderLeft="4px solid #00B2EA"
                   justifyContent="space-between">
-                  <Typography variant="body2">{title}</Typography>
-                  <Typography variant="body2">09:00-10:00</Typography>
+                  <Typography variant="body2">{title} | 09:00</Typography>
+                  
                   <Box
                     position="absolute"
                     top="0px"
