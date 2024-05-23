@@ -45,7 +45,7 @@ const TimerDisplay = ({ duration, timeLeft }) => {
           background: theme.palette.primary.light,
           borderRadius: "50%",
           color: "#fff",
-          fontSize: "34px",
+          fontSize: "48px",
           position: "relative",
         }}>
         <svg

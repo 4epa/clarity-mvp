@@ -119,7 +119,7 @@ export default function Home() {
                 justifyContent="space-between"
                 alignItems="center"
                 direction="row">
-                <span>Work</span>
+                <Typography variant='h3' >Work</Typography>
                 <Stack
                   gap="24px"
                   alignItems="center"
@@ -130,7 +130,7 @@ export default function Home() {
                     size="small">
                     <AddIcon />
                   </IconButton>
-                  <span>{workDuration}</span>
+                  <Typography variant='h3' >{workDuration}</Typography>
                   <IconButton
                     onClick={() => handleChange("work", "-")}
                     color="primary"
@@ -143,7 +143,7 @@ export default function Home() {
                 justifyContent="space-between"
                 alignItems="center"
                 direction="row">
-                <span>Work</span>
+                <Typography variant='h3' >Rest</Typography>
                 <Stack
                   gap="24px"
                   alignItems="center"
@@ -154,7 +154,7 @@ export default function Home() {
                     size="small">
                     <AddIcon />
                   </IconButton>
-                  <span>{restDuration}</span>
+                  <Typography variant='h3' >{restDuration}</Typography>
                   <IconButton
                     onClick={() => handleChange("rest", "-")}
                     color="primary"
