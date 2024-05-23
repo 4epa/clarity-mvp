@@ -39,10 +39,10 @@ export default function Home() {
       title: "Daily meeting",
       subtasks: [],
       hours: 9,
-      mins: 10,
+      mins: 0,
       duration: {
         hours: 0,
-        mins: 40,
+        mins: 50,
       },
     },
     {
@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <main>
-      <Box height="100vh">
+      <Box width="100%">
         <Box padding="16px 12px">
           <Stack
             direction="row"
@@ -110,7 +110,7 @@ export default function Home() {
             }}>
             <Typography variant="h5">Today`s schedule</Typography>
           </Box>
-          <Stack position="relative">
+          <Stack position="relative" overflow="hidden">
             {events.map((event, index) => {
               const { title, hours, mins, duration } = event;
 
@@ -128,7 +128,7 @@ export default function Home() {
                   top={position}
                   height={height}
                   width="100%"
-                  padding="8px"
+                  padding="4px 6px"
                   borderLeft="4px solid #00B2EA"
                   justifyContent="space-between">
                   <Typography variant="body2">{title}</Typography>
