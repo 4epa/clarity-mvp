@@ -8,9 +8,20 @@ import { useContext } from "react";
 import { AppContext } from "@/context/AppContext";
 import { calculateEventTime } from "@/utils/utils";
 import AlarmOnIcon from "@mui/icons-material/AlarmOn";
+import { useSearchParams } from "next/navigation";
 
-const EventList = ({ events }) => {
-  console.log(events);
+const EventList = ({ dayEvents, events, setDayEvents }) => {
+  const isSelected = (event) => {
+    return !!dayEvents.find((dayEvent) => dayEvent.id === event.id);
+  };
+
+  const handleToggle = (event) => {
+    if (isSelected(event)) {
+      setDayEvents(dayEvents.filter((dayEvent) => dayEvent.id !== event.id));
+    } else {
+      setDayEvents([...dayEvents, event]);
+    }
+  };
 
   return (
     <Stack
@@ -18,12 +29,17 @@ const EventList = ({ events }) => {
       direction="column">
       {events.map((event) => (
         <Stack
+          onClick={() => handleToggle(event)}
           key={event.id}
           borderRadius="12px"
           padding="16px"
           justifyContent="space-between"
           direction="row"
-          backgroundColor={theme.palette.secondary.main}>
+          backgroundColor={
+            isSelected(event)
+              ? theme.palette.primary.light
+              : theme.palette.secondary.main
+          }>
           <Stack
             gap="16px"
             direction="row">
@@ -45,7 +61,11 @@ const EventList = ({ events }) => {
 };
 
 export default function Home() {
-  const { events } = useContext(AppContext);
+  const { events, getEventsSetter } = useContext(AppContext);
+  const searchParams = useSearchParams();
+  const day = searchParams.get("day");
+
+  const [dayEvents, setDayEvents] = getEventsSetter(day);
 
   return (
     <main>
@@ -62,7 +82,11 @@ export default function Home() {
           variant="h5">
           Event list
         </Typography>
-        <EventList events={events} />
+        <EventList
+          events={events}
+          dayEvents={dayEvents}
+          setDayEvents={setDayEvents}
+        />
         <Stack
           padding="16px 16px 100px"
           width="100%"
@@ -70,7 +94,7 @@ export default function Home() {
           bottom="0px"
           left="0px"
           gap="20px">
-          <Link href="/create-evnt">
+          <Link href={`/create-event?day=${day}`}>
             <Button
               fullWidth={true}
               variant="contained"

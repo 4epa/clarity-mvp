@@ -1,6 +1,6 @@
 "use client";
 
-import EventTaskSection from "@/components/EventTaskSection";
+import { useSearchParams } from "next/navigation";
 import { Box, Stack, Typography, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
@@ -12,6 +12,9 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { getEvent } from "@/utils/utils";
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const day = searchParams.get("day");
+
   const [title, setTitle] = useState("");
   const [startHour, setStartHour] = useState("");
   const [startMin, setStartMin] = useState("");
@@ -80,7 +83,7 @@ export default function Home() {
         <Stack
           marginBottom="16px"
           direction="row">
-          <Link href="/events">
+          <Link href={`/events?day=${day}`}>
             <ArrowBackIcon />
           </Link>
         </Stack>

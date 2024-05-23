@@ -1,7 +1,11 @@
 "use client";
 
 import { Box, Stack, Typography, Avatar } from "@mui/material";
-import { getCurrentDate, getDaysOfCurrentWeek } from "@/utils/utils";
+import {
+  calculateEventTime,
+  getCurrentDate,
+  getDaysOfCurrentWeek,
+} from "@/utils/utils";
 import theme from "@/theme";
 import { useContext } from "react";
 import { AppContext } from "@/context/AppContext";
@@ -23,12 +27,10 @@ const getEventHeight = (mins) => {
 };
 
 const EventList = ({ events }) => {
-  
-
   return (
     events &&
     events.map((event, index) => {
-      const { title, hours, mins, duration } = event;
+      const { title, hours, mins, duration, color } = event;
 
       const positionMins = getMins(hours, mins);
       const durationMins = getMins(duration.hours, duration.mins);
@@ -45,9 +47,12 @@ const EventList = ({ events }) => {
           height={height}
           width="100%"
           padding="4px 6px"
-          borderLeft="4px solid #00B2EA"
+          borderLeft={`4px solid ${color}`}
           justifyContent="space-between">
-          <Typography variant="body2">{title} | 09:00</Typography>
+          <Typography variant="body2">
+            {title} |{" "}
+            {calculateEventTime(hours, mins, duration.hours, duration.mins)}
+          </Typography>
 
           <Box
             position="absolute"
@@ -55,7 +60,7 @@ const EventList = ({ events }) => {
             left="0px"
             width="100%"
             height="100%"
-            backgroundColor="#00B2EA"
+            backgroundColor={color}
             sx={{ opacity: "0.25" }}
           />
         </Stack>

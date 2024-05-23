@@ -12,6 +12,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 8,
       mins: 0,
+      color: "#00EA09",
       duration: {
         hours: 0,
         mins: 50,
@@ -23,6 +24,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 9,
       mins: 0,
+      color: "#FF8718",
       duration: {
         hours: 0,
         mins: 50,
@@ -34,6 +36,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 10,
       mins: 0,
+      color: "#E94949",
       duration: {
         hours: 1,
         mins: 0,
@@ -45,6 +48,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 11,
       mins: 30,
+      color: "#00B2EA",
       duration: {
         hours: 8,
         mins: 0,
@@ -63,6 +67,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 8,
       mins: 0,
+      color: "#00EA09",
       duration: {
         hours: 0,
         mins: 50,
@@ -74,6 +79,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 9,
       mins: 0,
+      color: "#FF8718",
       duration: {
         hours: 0,
         mins: 50,
@@ -85,6 +91,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 10,
       mins: 0,
+      color: "#E94949",
       duration: {
         hours: 1,
         mins: 0,
@@ -96,6 +103,7 @@ const AppProvider = ({ children }) => {
       subtasks: [],
       hours: 11,
       mins: 30,
+      color: "#00B2EA",
       duration: {
         hours: 8,
         mins: 0,
@@ -104,6 +112,27 @@ const AppProvider = ({ children }) => {
   ]);
   const [friEvents, setFriEvents] = useState([]);
   const [satEvents, setSatEvents] = useState([]);
+
+  const getEventsSetter = (day) => {
+    switch (day) {
+      case "Sun":
+        return [sunEvents, setSunEvents];
+      case "Mon":
+        return [monEvents, setMonEvents];
+      case "Tue":
+        return [tueEvents, setTueEvents];
+      case "Wed":
+        return [wedEvents, setWedEvents];
+      case "Thu":
+        return [thuEvents, setThuEvents];
+      case "Fri":
+        return [friEvents, setFriEvents];
+      case "Sat":
+        return [satEvents, setSatEvents];
+      default:
+        return [[], () => {}];
+    }
+  };
 
   return (
     <AppContext.Provider
@@ -124,6 +153,7 @@ const AppProvider = ({ children }) => {
         setFriEvents,
         satEvents,
         setSatEvents,
+        getEventsSetter,
       }}>
       {children}
     </AppContext.Provider>
