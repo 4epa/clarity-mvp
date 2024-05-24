@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { Box, Stack, Typography, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
@@ -11,9 +10,8 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { getEvent } from "@/utils/utils";
 
-export default function Home() {
-  const searchParams = useSearchParams();
-  const day = searchParams.get("day");
+export default function Home({params}) {
+  const day = params.day;
 
   const [title, setTitle] = useState("");
   const [startHour, setStartHour] = useState("");
@@ -83,7 +81,7 @@ export default function Home() {
         <Stack
           marginBottom="16px"
           direction="row">
-          <Link href={`/events?day=${day}`}>
+          <Link href={`/events/${day}`}>
             <ArrowBackIcon />
           </Link>
         </Stack>

@@ -367,7 +367,7 @@ export default function Home() {
           position="fixed"
           right="12px"
           bottom="12px">
-          <Link href={`/events?day=${currentDay}`}>
+          <Link href={`/events/${currentDay}`}>
             <Button variant="contained">
               <AddIcon fontSize="large" />
             </Button>

@@ -60,10 +60,10 @@ const EventList = ({ dayEvents, events, setDayEvents }) => {
   );
 };
 
-export default function Home() {
+export default function Home({ params }) {
+  const day = params.day;
+
   const { events, getEventsSetter } = useContext(AppContext);
-  const searchParams = useSearchParams();
-  const day = searchParams.get("day");
 
   const [dayEvents, setDayEvents] = getEventsSetter(day);
 
@@ -94,7 +94,7 @@ export default function Home() {
           bottom="0px"
           left="0px"
           gap="20px">
-          <Link href={`/create-event?day=${day}`}>
+          <Link href={`/create-event/${day}`}>
             <Button
               fullWidth={true}
               variant="contained"
