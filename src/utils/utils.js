@@ -108,3 +108,11 @@ export const getCurrentTimeInMinutes = () => {
   const now = new Date();
   return now.getHours() * 60 + now.getMinutes();
 };
+
+export const formatInputValue = (value) => {
+  const numericValue = value.replace(/\D/g, "");
+
+  const truncatedValue = numericValue.slice(0, 2);
+
+  return truncatedValue;
+};

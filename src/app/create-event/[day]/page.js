@@ -8,9 +8,9 @@ import { AppContext } from "@/context/AppContext";
 import TextField from "@mui/material/TextField";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { getEvent } from "@/utils/utils";
+import { getEvent, formatInputValue } from "@/utils/utils";
 
-export default function Home({params}) {
+export default function Home({ params }) {
   const day = params.day;
 
   const [title, setTitle] = useState("");
@@ -19,6 +19,7 @@ export default function Home({params}) {
   const [durationHour, setDurationHour] = useState("");
   const [durationMin, setDurationMin] = useState("");
   const [color, setColor] = useState("#00B2EA");
+  const [error, setError] = useState("");
 
   const { events, setEvents } = useContext(AppContext);
 
@@ -27,52 +28,106 @@ export default function Home({params}) {
   };
 
   const handleChangeStartHour = (event) => {
-    setStartHour(event.target.value);
+    const time = formatInputValue(event.target.value);
+
+    setStartHour(time);
   };
 
   const handleChangeStartMin = (event) => {
-    setStartMin(event.target.value);
+    const time = formatInputValue(event.target.value);
+
+    setStartMin(time);
   };
 
   const handleChangeDurationHour = (event) => {
-    setDurationHour(event.target.value);
+    const time = formatInputValue(event.target.value);
+
+    setDurationHour(time);
   };
 
   const handleChangeDurationMin = (event) => {
-    setDurationMin(event.target.value);
+    const time = formatInputValue(event.target.value);
+
+    setDurationMin(time);
   };
 
   const handleAlignment = (event, newColor) => {
     setColor(newColor);
   };
 
-  const handleSubmit = () => {
-    if (
+  const checkField = () => {
+    return (
       !!title &&
       !!startHour &&
       !!startMin &&
       !!durationHour &&
       !!durationMin &&
       !!color
+    );
+  };
+
+  const isRange = () => {
+    const startHourInt = parseInt(startHour, 10);
+    const startMinInt = parseInt(startMin, 10);
+    const durationHourInt = parseInt(durationHour, 10);
+    const durationMinInt = parseInt(durationMin, 10);
+
+    if (
+      isNaN(startHourInt) ||
+      isNaN(startMinInt) ||
+      isNaN(durationHourInt) ||
+      isNaN(durationMinInt)
     ) {
-      const event = getEvent(
-        title,
-        startHour,
-        startMin,
-        durationHour,
-        durationMin,
-        color
-      );
-
-      setTitle("");
-      setStartHour("");
-      setStartMin("");
-      setDurationHour("");
-      setDurationMin("");
-      setColor("#00B2EA");
-
-      setEvents([...events, event]);
+      return false;
     }
+
+    if (
+      startHourInt < 0 ||
+      startHourInt > 23 ||
+      startMinInt < 0 ||
+      startMinInt > 59 ||
+      durationHourInt < 0 ||
+      durationHourInt > 23 ||
+      durationMinInt < 0 ||
+      durationMinInt > 59
+    ) {
+      return false;
+    }
+
+    const startInMinutes = startHourInt * 60 + startMinInt;
+    const durationInMinutes = durationHourInt * 60 + durationMinInt;
+
+    const endInMinutes = startInMinutes + durationInMinutes;
+    return endInMinutes <= 1440;
+  };
+
+  const handleSubmit = () => {
+    if (!checkField()) {
+      return setError("Not all fields are filled");
+    }
+
+    if (!isRange()) {
+      return setError("Invalid time value");
+    }
+
+    const event = getEvent(
+      title,
+      startHour,
+      startMin,
+      durationHour,
+      durationMin,
+      color
+    );
+
+    setTitle("");
+    setStartHour("");
+    setStartMin("");
+    setDurationHour("");
+    setDurationMin("");
+    setColor("#00B2EA");
+    setError("");
+
+    setEvents([...events, event]);
   };
 
   return (
@@ -178,6 +233,16 @@ export default function Home({params}) {
               </ToggleButton>
             </ToggleButtonGroup>
           </Stack>
+
+          {error && (
+            <Typography
+              marginTop="72px"
+              textAlign="center"
+              variant="h6"
+              color="error">
+              {error}
+            </Typography>
+          )}
         </Stack>
 
         <Stack
